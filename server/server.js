@@ -20,18 +20,17 @@ var SOCKET_LIST = {};
 io.on('connection', (socket) => {
     socket.id = Math.floor(Math.random() * 90000) + 10000;
     SOCKET_LIST[socket.id] = socket;
-    console.log('client connected! socket: ' + socket.id)
+    console.log('client connected! socket: ' + socket.id);
+    io.emit('socketInfo', socket.id);
 
     socket.on('httpRequest', (request) => {
         const { metodo, url } = request;
-        console.log('client made a http request!')
 
-        if(metodo == 'GET' && url == '/') {
-            console.log('client made a http request2!')
+        if(metodo === 'GET' && url === '/connect') {
             const dados = {
                 mensagem: 'Olá seja bem vindo, conectado ao servidor!😄',
             };
-            socket.emit('httpResponse', { dados });
+            io.emit('httpResponse', { dados });
         }        
     });
 
