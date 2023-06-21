@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TextInput, Button } from 'react-native';
 import { io } from 'socket.io-client';
 
 const URL = 'http://192.168.1.3:3000';
@@ -20,26 +20,22 @@ const app = () => {
         socket.on('socketInfo', (info) => {
             console.log('Socket conectado. ID: ' + info);
         });
-
-        console.log('Buscando dados.')
-        socket.emit('httpRequest', {
-            metodo: 'GET',
-            url: '/connect',
-        });
-
-        socket.on('httpResponse', (res) => {
-            setarDados(res.dados);
-            console.log('Dados recebidos!')
-        });
-
-        socket.on('httpError', (error) => {
-            console.log(error);
-        });
     };
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', fontSize: 32, fontWeight: 'bold' }}>
-          <Text>{dados ? dados.mensagem : 'Carregando dados...'}</Text>
+        <View style={{ flex: 1, padding: 10, gap: 10, justifyContent: 'center', alignItems: 'center', fontSize: 32, fontWeight: 'bold' }}>
+          
+          <Text>
+            Faça login!
+          </Text>
+
+          <TextInput style={{ width: '75%', borderWidth: 1, borderRadius: 10 }} className='loginInput' placeholder='Usuário'/>
+          <TextInput style={{ width: '75%', borderWidth: 1, borderRadius: 10 }} className='loginInput' placeholder='Senha'/>
+          
+          <View style={{ flex: 0, padding: 10, gap: 10, alignItems: 'center', flexDirection: 'row'}}>
+            <Button title='Login'/><Button title='Criar conta'/>
+          </View>
+          
         </View>
     );
 }
